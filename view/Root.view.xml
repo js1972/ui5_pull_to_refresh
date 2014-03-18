@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<core:View
+	controllerName="sap.ui.demo.view.Root"
+	displayBlock="true"
+	resourceBundleName="sap.ui.demo.i18n.messageBundle"
+	resourceBundleAlias="i18n"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc"
+	xmlns="sap.m">
+
+	<Shell showLogout="false">
+		<SplitApp id="idApp">
+			<masterPages>
+				<mvc:XMLView viewName="sap.ui.demo.view.Master" id="idViewMaster" />
+			</masterPages>
+			<detailPages>
+				<mvc:XMLView viewName="sap.ui.demo.view.Empty" id="idViewEmpty" />
+				<mvc:XMLView viewName="sap.ui.demo.view.Detail" id="idViewDetail" />
+				<mvc:XMLView viewName="sap.ui.demo.view.LineItem" id="idViewLineItem" />
+			</detailPages>
+		</SplitApp>
+	</Shell>
+	
+</core:View>
