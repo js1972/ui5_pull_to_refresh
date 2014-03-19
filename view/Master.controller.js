@@ -6,6 +6,10 @@
 
 	sap.ui.controller("sap.ui.demo.view.Master", {
 
+		currentRows: 0,
+		listInit: false,
+		scroller: null,
+
 		onInit: function() {
 			this.bus = sap.ui.getCore().getEventBus();
 		},
@@ -20,23 +24,48 @@
 		/* sap.m.PulltoRefresh : refresh event handler */
 		refreshData: function(evt) {
 			var pullToRefreshControl = evt.getSource();
-
-			// load some more data
 			var model = this.getView().getModel();
-			model.loadData("model/mock.json", "", true, "GET", true);
+			
+			// Get the scroller (iScroll 4) which is a property of the UI5 sap.ui.core.delegate.ScrollEnablement object
+			this.scroller = pullToRefreshControl.getParent()._oScroller._scroller;
 
-			//var salesOrders = model.getData();
+			// Load some more data (dummy json) and pre-pend it to our model
+			jQuery.ajax("model/more_mock_data.json", {
+				dataType: "json",
+				success: function(moreData) {
+					var d = model.getData();
+					d.SalesOrderCollection = moreData.SalesOrderCollection.concat(d.SalesOrderCollection);
 
-			//jQuery.ajax("Data.json", {
-			//	dataType: "json",
-			//	success: function(data) {
-			//		var oModel = new sap.ui.model.json.JSONModel(data);
-			//	}
-			//});
+					// dummy delay to simulate network latency
+					setTimeout(function(p) {
+						model.setData(d);
+						p.hide();
+					}, 1000, pullToRefreshControl);
+				}
+			});
+		},
 
-			setTimeout(function(p) {
-				p.hide();
-			}, 1000, pullToRefreshControl);
+		/**
+		 * Fired when the sap.m.List is updated via a data change or binding - set scroll pos to previously viewed list item
+		 */
+		handleUpdateFinished: function(evt) {
+			if (evt.getParameter("reason") === "Change") {
+				var actualRows = evt.getParameter("actual");
+
+				if (this.listInit && actualRows > this.currentRows) {
+					var diff = actualRows - this.currentRows - 1;
+					var rowsToScroll = diff < 0 ? 0 : diff;
+
+					if (this.scroller) {
+						setTimeout(function() {
+							var listItemSelector = "#__item0-idViewRoot--idViewMaster--list-" + rowsToScroll;
+							this.scroller.scrollToElement(listItemSelector, 200);
+						}.bind(this), 200);
+					}
+				}
+				this.listInit = true;
+				this.currentRows = actualRows;
+			}
 		},
 
 		/* handle selection of list item in desktop mode */

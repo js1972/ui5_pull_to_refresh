@@ -85,7 +85,7 @@ module.exports = function(grunt) {
 						livereload: 35729,
 					
 					hostname: "localhost",
-				base: "."
+				base: [".", "../sapui5/latest"]
 			},
 
 			/*
