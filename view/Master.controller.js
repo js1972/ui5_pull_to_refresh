@@ -9,6 +9,7 @@
 		currentRows: 0,
 		listInit: false,
 		scroller: null,
+		usingIScroll: true,
 
 		onInit: function() {
 			this.bus = sap.ui.getCore().getEventBus();
@@ -21,13 +22,21 @@
 			}
 		},
 
-		/* sap.m.PulltoRefresh : refresh event handler */
+		/**
+		 * sap.m.PulltoRefresh : refresh event handler.
+		 * Note that the iScroll library is only used in the mobile scenario. We need to work 
+		 * with the UI5 scroller in desktop mode.
+		 */
 		refreshData: function(evt) {
 			var pullToRefreshControl = evt.getSource();
 			var model = this.getView().getModel();
 			
 			// Get the scroller (iScroll 4) which is a property of the UI5 sap.ui.core.delegate.ScrollEnablement object
 			this.scroller = pullToRefreshControl.getParent()._oScroller._scroller;
+			if (!this.scroller) {
+				this.scroller = pullToRefreshControl.getParent()._oScroller;
+				this.usingIScroll = false;
+			}
 
 			// Load some more data (dummy json) and pre-pend it to our model
 			jQuery.ajax("model/more_mock_data.json", {
@@ -46,7 +55,8 @@
 		},
 
 		/**
-		 * Fired when the sap.m.List is updated via a data change or binding - set scroll pos to previously viewed list item
+		 * Fired when the sap.m.List is updated via a data change or binding - set scroll pos to previously viewed list item.
+		 * In desktop mode we have to calculate the item offset outselves as we don't have iScroll available.
 		 */
 		handleUpdateFinished: function(evt) {
 			if (evt.getParameter("reason") === "Change") {
@@ -59,7 +69,12 @@
 					if (this.scroller) {
 						setTimeout(function() {
 							var listItemSelector = "#__item0-idViewRoot--idViewMaster--list-" + rowsToScroll;
-							this.scroller.scrollToElement(listItemSelector, 200);
+							if (this.usingIScroll) {
+								this.scroller.scrollToElement(listItemSelector, 200);
+							} else {
+								var offset = $(listItemSelector).position().top + 120;
+								this.scroller.scrollTo(0, offset, 300);
+							}
 						}.bind(this), 200);
 					}
 				}
