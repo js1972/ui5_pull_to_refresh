@@ -31,7 +31,7 @@
 			var pullToRefreshControl = evt.getSource();
 			var model = this.getView().getModel();
 			
-			// Get the scroller (iScroll 4) which is a property of the UI5 sap.ui.core.delegate.ScrollEnablement object
+			// Get the scroller
 			this.scroller = pullToRefreshControl.getParent()._oScroller._scroller;
 			if (!this.scroller) {
 				this.scroller = pullToRefreshControl.getParent()._oScroller;
@@ -66,6 +66,9 @@
 					var diff = actualRows - this.currentRows - 1;
 					var rowsToScroll = diff < 0 ? 0 : diff;
 
+					// Get scroller
+					
+					
 					if (this.scroller) {
 						setTimeout(function() {
 							var listItemSelector = "#__item0-idViewRoot--idViewMaster--list-" + rowsToScroll;
