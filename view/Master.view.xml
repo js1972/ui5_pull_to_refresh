@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<core:View
+	controllerName="sap.ui.demo.view.Master"
+	xmlns="sap.m"
+	xmlns:core="sap.ui.core"
+	xmlns:mvc="sap.ui.core.mvc" >
+	<Page title="{i18n>MasterTitle}" >
+		<subHeader>
+			<Bar>
+				<contentLeft>
+					<SearchField
+						search="handleSearch"
+						width="100%" >
+					</SearchField>
+				</contentLeft>
+			</Bar>
+		</subHeader>
+		<PullToRefresh
+			refresh="refreshData"
+		/>
+		<List
+			id="list"
+			mode="{device>/listMode}"
+			select="handleListSelect"
+			updateFinished="handleUpdateFinished"
+			items="{/SalesOrderCollection}" >
+			<ObjectListItem
+				type="{device>/listItemType}"
+				press="handleListItemPress"
+				title="{SoId}"
+				number="{GrossAmount}"
+				numberUnit="{CurrencyCode}" >
+				<attributes>
+					<ObjectAttribute text="{BuyerName}" />
+				</attributes>
+				<firstStatus>
+					<ObjectStatus
+						text="{BillingStatus}"
+						state="{
+							path: 'BillingStatus',
+							formatter: 'sap.ui.demo.util.Formatter.statusState'
+						}" />
+				</firstStatus>
+			</ObjectListItem>
+		</List>
+		<footer>
+			<Bar>
+				<contentRight>
+					<Button
+						icon="sap-icon://group-2"
+						press="handleViewSettings" />
+				</contentRight>
+			</Bar>
+		</footer>
+	</Page>
+</core:View>
