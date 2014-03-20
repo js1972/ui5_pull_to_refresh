@@ -6,6 +6,7 @@
 1. Clone this repo
 2. Change into the cloned directory and run ```npm install``` to download all the Grunt dependencies
 3. Run ```grunt serve``` which will start a web server and launch the app in your default browser
+4. Alternatively just navigate to ```http://js1972.github.io/ui5_pull_to_refresh/``` on you desktop browser or phone to see a GitHub hosted version.
 
 Check Gruntfile.js for the connect web server settings. By default it sets up a server on localhost:8080 and serves files from the current diretory and the ../sapui5/latest directories. Change this latter directory to be the location of your UI5 library or alternatively use ```https://openui5.netweaver.ondemand.com/resources/sap-ui-core.js``` as the src attribute in the bootstrap script (although, this is damn slow).
 
