@@ -36,6 +36,10 @@ Component details:
 			oView.setModel(deviceModel, "device");
 
 			return oView;
+		},
+
+		onAfterRendering: function() {
+			FastClick.attach(document.body);
 		}
 	});
 
