@@ -63,7 +63,7 @@
 				var actualRows = evt.getParameter("actual");
 
 				if (this.listInit && actualRows > this.currentRows) {
-					var diff = actualRows - this.currentRows - 1;
+					var diff = actualRows - this.currentRows; // - 1;
 					var rowsToScroll = diff < 0 ? 0 : diff;
 
 					// Get scroller
