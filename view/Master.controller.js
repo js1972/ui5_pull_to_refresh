@@ -76,7 +76,7 @@
 								this.scroller.scrollToElement(listItemSelector, 300);
 								setTimeout(function() {
 									this.scroller.scrollTo(0, 20, 500);
-								});
+								}, 200);
 							} else {
 								var offset = $(listItemSelector).position().top;
 								this.scroller.scrollTo(0, offset, 300);
