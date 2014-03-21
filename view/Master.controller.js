@@ -73,7 +73,8 @@
 						setTimeout(function() {
 							var listItemSelector = "#__item0-idViewRoot--idViewMaster--list-" + rowsToScroll;
 							if (this.usingIScroll) {
-								this.scroller.scrollToElement(listItemSelector, 400);
+								this.scroller.scrollToElement(listItemSelector, 300);
+								this.scroller.scrollTo(0, 20, 500);
 							} else {
 								var offset = $(listItemSelector).position().top;
 								this.scroller.scrollTo(0, offset, 300);
