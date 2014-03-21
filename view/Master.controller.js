@@ -3,6 +3,7 @@
 
 	jQuery.sap.require("sap.ui.demo.util.Formatter");
 	jQuery.sap.require("sap.ui.demo.util.Grouper");
+	jQuery.sap.require("sap.m.MessageToast");
 
 	sap.ui.controller("sap.ui.demo.view.Master", {
 
@@ -72,15 +73,15 @@
 					if (this.scroller) {
 						setTimeout(function() {
 							var listItemSelector = "#__item0-idViewRoot--idViewMaster--list-" + rowsToScroll;
+							var offset;
 							if (this.usingIScroll) {
-								this.scroller.scrollToElement(listItemSelector, 300, true, true);
-								//setTimeout(function() {
-								//	this.scroller.scrollTo(0, 20, 500);
-								//}, 200);
+								this.scroller.scrollToElement(listItemSelector, 400);
 							} else {
-								var offset = $(listItemSelector).position().top;
-								this.scroller.scrollTo(0, offset, 300);
+								offset = $(listItemSelector).position().top;
+								this.scroller.scrollTo(0, offset, 400);
 							}
+
+							sap.m.MessageToast.show("Scroll up to see new items...");
 						}.bind(this), 200);
 					}
 				}
