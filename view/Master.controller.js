@@ -73,9 +73,9 @@
 						setTimeout(function() {
 							var listItemSelector = "#__item0-idViewRoot--idViewMaster--list-" + rowsToScroll;
 							if (this.usingIScroll) {
-								this.scroller.scrollToElement(listItemSelector, 200);
+								this.scroller.scrollToElement(listItemSelector, 400);
 							} else {
-								var offset = $(listItemSelector).position().top + 120;
+								var offset = $(listItemSelector).position().top;
 								this.scroller.scrollTo(0, offset, 300);
 							}
 						}.bind(this), 200);
