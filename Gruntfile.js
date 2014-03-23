@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 				src: "Gruntfile.js"
 			},
 			application: {
-				src: ["model/**/*.js", "util/**/*.js", "view/**/*.js", "*.js"]
+				src: ["model/**/*.js", "util/**/*.js", "view/**/*.js", "*.js", "!util/fastclick.js"]
 			}
 		},
 
@@ -57,14 +57,14 @@ module.exports = function(grunt) {
 			application: {
 				files: "<%= jshint.application.src %>",
 				tasks: ["jshint:application"]
-			}  ,
-				livereload: {
-					options: {
-						livereload: "<%= connect.options.livereload %>"
-					},
-					//files: "<%= jshint.application.src %>" // Be careful to not watch npm dependencies
-					files: ["model/**/*.js", "util/**/*.js", "view/**/*.js", "*.js", "view/**/*.xml"]
-				}
+			},
+			livereload: {
+				options: {
+					livereload: "<%= connect.options.livereload %>"
+				},
+				//files: "<%= jshint.application.src %>" // Be careful to not watch npm dependencies
+				files: ["model/**/*.js", "util/**/*.js", "view/**/*.js", "*.js", "view/**/*.xml"]
+			}
 		},
 
 
@@ -80,11 +80,9 @@ module.exports = function(grunt) {
 
 		connect: {
 			options: {
-				port: 8080 ,
-				
-						livereload: 35729,
-					
-					hostname: "localhost",
+				port: 9000,
+				livereload: 35729,
+				hostname: "0.0.0.0",
 				base: [".", "../sapui5/latest"]
 			},
 

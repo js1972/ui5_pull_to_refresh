@@ -5,6 +5,7 @@ Component details:
 	- Views: XML
 	- Navigation: EventBus
 */
+/*globals FastClick*/
 (function() {
 	"use strict";
 

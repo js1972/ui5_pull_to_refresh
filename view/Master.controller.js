@@ -9,8 +9,6 @@
 
 		currentRows: 0,
 		listInit: false,
-		scroller: null,
-		usingIScroll: true,
 
 		onInit: function() {
 			this.bus = sap.ui.getCore().getEventBus();
@@ -25,19 +23,12 @@
 
 		/**
 		 * sap.m.PulltoRefresh : refresh event handler.
-		 * Note that the iScroll library is only used in the mobile scenario. We need to work 
+		 * Note that the iScroll library is only used in the mobile scenario. We need to work
 		 * with the UI5 scroller in desktop mode.
 		 */
 		refreshData: function(evt) {
 			var pullToRefreshControl = evt.getSource();
 			var model = this.getView().getModel();
-			
-			// Get the scroller
-			this.scroller = pullToRefreshControl.getParent()._oScroller._scroller;
-			if (!this.scroller) {
-				this.scroller = pullToRefreshControl.getParent()._oScroller;
-				this.usingIScroll = false;
-			}
 
 			// Load some more data (dummy json) and pre-pend it to our model
 			jQuery.ajax("model/more_mock_data.json", {
@@ -68,17 +59,22 @@
 					var rowsToScroll = diff < 0 ? 0 : diff;
 
 					// Get scroller
-					
-					
-					if (this.scroller) {
+					var scroller = this.byId("idViewRoot--idViewMaster--idPageMaster").getScrollDelegate();
+					if (scroller._scroller) {
+						scroller = scroller._scroller; //using iScroll instead of native
+					}
+
+
+					if (scroller) {
 						setTimeout(function() {
 							var listItemSelector = "#__item0-idViewRoot--idViewMaster--list-" + rowsToScroll;
 							var offset;
-							if (this.usingIScroll) {
-								this.scroller.scrollToElement(listItemSelector, 400);
+
+							if (typeof(scroller.scrollToElement) === "function") {
+								scroller.scrollToElement(listItemSelector, 400);
 							} else {
 								offset = $(listItemSelector).position().top;
-								this.scroller.scrollTo(0, offset, 400);
+								scroller.scrollTo(0, offset, 400);
 							}
 
 							sap.m.MessageToast.show("Scroll up to see new items...");
