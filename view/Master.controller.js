@@ -48,7 +48,9 @@
 
 		/**
 		 * Fired when the sap.m.List is updated via a data change or binding - set scroll pos to previously viewed list item.
-		 * In desktop mode we have to calculate the item offset outselves as we don't have iScroll available.
+		 * In desktop mode we have to calculate the item offset ourselves as we don't have iScroll available.
+		 * The UI team are trying to remove iScroll and rely on native scrolling only...
+		 *  - from 1.20: if (android&&version<4.1 || blackberry { iScroll is smoother! } || ios&&version<6) { use iScroll } else { yay! }
 		 */
 		handleUpdateFinished: function(evt) {
 			if (evt.getParameter("reason") === "Change") {
@@ -62,6 +64,9 @@
 					var scroller = this.byId("idViewRoot--idViewMaster--idPageMaster").getScrollDelegate();
 					if (scroller._scroller) {
 						scroller = scroller._scroller; //using iScroll instead of native
+						console.log("*** using iscroll ***");
+					} else {
+						console.log("*** using native scrolling ***");
 					}
 
 
